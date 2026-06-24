@@ -1,0 +1,19 @@
+run-name: "Deploying to ${{ inputs.environment }} by @${{ github.actor }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        type: choice
+        required: true
+        default: 'staging'
+        options:
+          - staging
+          - production
+
+jobs:
+  deploy:
+    steps:
+      - name: Deploying code
+        run: echo "Deploying to ${{ inputs.environment }}"
