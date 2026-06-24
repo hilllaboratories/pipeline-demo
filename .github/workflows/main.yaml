@@ -1,3 +1,4 @@
+name: Entrypoint
 run-name: "Deploying to ${{ inputs.environment }} by @${{ github.actor }}"
 
 on:
@@ -13,8 +14,20 @@ on:
           - production
 
 jobs:
+  analyze:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Analyzing code
+        run: echo "Analyzing ${{ inputs.environment }}"
   deploy:
-    runs-on: [ubuntu-slim]
+    needs: analyze
+    runs-on: ubuntu-slim
     steps:
       - name: Deploying code
         run: echo "Deploying to ${{ inputs.environment }}"
+  skip:
+    runs-on: ubuntu-slim
+    if: false
+    steps:
+      - name: Skipping
+        run: echo "Skipping"
