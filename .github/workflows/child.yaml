@@ -11,8 +11,17 @@ on:
         default: 'staging'
 
 jobs:
-  foo:
+  build:
     runs-on: ubuntu-slim
     steps:
-      - name: Example job
-        run: echo "Example job"
+      - name: Build
+        run: echo "Building the application"
+  deploy:
+    needs: build
+    runs-on: ubuntu-slim
+    environment:
+      name: ${{ inputs.environment }}
+    steps:
+      - name: Deploy
+        run: echo "Deploying the application"
+        
