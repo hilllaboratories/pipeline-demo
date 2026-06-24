@@ -14,6 +14,7 @@ on:
 
 jobs:
   deploy:
+    runs-on: [linux]
     steps:
       - name: Deploying code
         run: echo "Deploying to ${{ inputs.environment }}"
