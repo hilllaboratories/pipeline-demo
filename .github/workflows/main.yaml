@@ -19,13 +19,28 @@ jobs:
     steps:
       - name: Analyzing code
         run: echo "Analyzing ${{ inputs.environment }}"
-  deploy:
+  deploy-a:
     needs: analyze
     runs-on: ubuntu-slim
     steps:
       - name: Deploying code
-        run: echo "Deploying to ${{ inputs.environment }}"
+        run: echo "Triggering child workflow a"
+      - uses: ./.github/workflows/child.yaml
+        with:
+          environment: 'staging'
+  deploy-b:
+    needs: analyze
+    runs-on: ubuntu-slim
+    steps:
+      - name: Deploying code
+        run: echo "Triggering child workflow b"
+      - uses: ./.github/workflows/child.yaml
+        with:
+          environment: 'production'
   skip:
+    needs:
+      - deploy-a
+      - deploy-b
     runs-on: ubuntu-slim
     if: false
     steps:
